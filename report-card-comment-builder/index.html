@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="educator-blue" data-mode="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Card Comment Builder v3</title>
+    <style>
+        /* ============================================
+           MATERIAL 3 DESIGN SYSTEM
+           ============================================ */
+        
+        :root {
+            /* Spacing System - 4px base grid */
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Elevation Shadows */
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1), 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1), 0 8px 10px rgba(0,0,0,0.04);
+            
+            /* Typography Scale */
+            --font-size-xs: 0.75rem;
+            --font-size-sm: 0.875rem;
+            --font-size-base: 1rem;
+            --font-size-lg: 1.125rem;
+            --font-size-xl: 1.25rem;
+            --font-size-2xl: 1.5rem;
+            --font-size-3xl: 2rem;
+            --font-size-4xl: 2.5rem;
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* ============================================
+           THEME: EDUCATOR BLUE
+           ============================================ */
+        [data-theme="educator-blue"][data-mode="light"] {
+            --primary: #1976d2;
+            --primary-hover: #1565c0;
+            --primary-light: #e3f2fd;
+            --primary-dark: #0d47a1;
+            
+            --secondary: #0288d1;
+            --secondary-hover: #0277bd;
+            --secondary-light: #b3e5fc;
+            
+            --surface-1: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --surface-4: #e2e8f0;
+            --surface-5: #cbd5e1;
+            
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --text-on-primary: #ffffff;
+            
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            
+            --success: #16a34a;
+            --warning: #ea580c;
+            --error: #dc2626;
+            
+            --gradient-start: #1976d2;
+            --gradient-end: #0d47a1;
+        }
+        
+        [data-theme="educator-blue"][data-mode="dark"] {
+            --primary: #42a5f5;
+            --primary-hover: #64b5f6;
+            --primary-light: #1e293b;
+            --primary-dark: #90caf9;
+            
+            --secondary: #4fc3f7;
+            --secondary-hover: #81d4fa;
+            --secondary-light: #1e293b;
+            
+            --surface-1: #0f172a;
+            --surface-2: #1e293b;
+            --surface-3: #334155;
+            --surface-4: #475569;
+            --surface-5: #64748b;
+            
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-on-primary: #0f172a;
+            
+            --border: #334155;
+            --border-hover: #475569;
+            
+            --success: #22c55e;
+            --warning: #f97316;
+            --error: #ef4444;
+            
+            --gradient-start: #1e40af;
+            --gradient-end: #1e3a8a;
+        }
+        
+        /* ============================================
+           THEME: FOREST GREEN
+           ============================================ */
+        [data-theme="forest-green"][data-mode="light"] {
+            --primary: #059669;
+            --primary-hover: #047857;
+            --primary-light: #d1fae5;
+            --primary-dark: #065f46;
+            
+            --secondary: #10b981;
+            --secondary-hover: #059669;
+            --secondary-light: #a7f3d0;
+            
+            --surface-1: #ffffff;
+            --surface-2: #f9fafb;
+            --surface-3: #f3f4f6;
+            --surface-4: #e5e7eb;
+            --surface-5: #d1d5db;
+            
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --text-tertiary: #6b7280;
+            --text-on-primary: #ffffff;
+            
+            --border: #e5e7eb;
+            --border-hover: #d1d5db;
+            
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --error: #dc2626;
+            
+            --gradient-start: #059669;
+            --gradient-end: #047857;
+        }
+        
+        [data-theme="forest-green"][data-mode="dark"] {
+            --primary: #34d399;
+            --primary-hover: #6ee7b7;
+            --primary-light: #1f2937;
+            --primary-dark: #a7f3d0;
+            
+            --secondary: #10b981;
+            --secondary-hover: #34d399;
+            --secondary-light: #1f2937;
+            
+            --surface-1: #111827;
+            --surface-2: #1f2937;
+            --surface-3: #374151;
+            --surface-4: #4b5563;
+            --surface-5: #6b7280;
+            
+            --text-primary: #f3f4f6;
+            --text-secondary: #d1d5db;
+            --text-tertiary: #9ca3af;
+            --text-on-primary: #111827;
+            
+            --border: #374151;
+            --border-hover: #4b5563;
+            
+            --success: #22c55e;
+            --warning: #fbbf24;
+            --error: #ef4444;
+            
+            --gradient-start: #065f46;
+            --gradient-end: #064e3b;
+        }
+        
+        /* ============================================
+           THEME: WARM CORAL
+           ============================================ */
+        [data-theme="warm-coral"][data-mode="light"] {
+            --primary: #f43f5e;
+            --primary-hover: #e11d48;
+            --primary-light: #ffe4e6;
+            --primary-dark: #be123c;
+            
+            --secondary: #fb7185;
+            --secondary-hover: #f43f5e;
+            --secondary-light: #fecdd3;
+            
+            --surface-1: #ffffff;
+            --surface-2: #fef2f2;
+            --surface-3: #fee2e2;
+            --surface-4: #fecaca;
+            --surface-5: #fca5a5;
+            
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-tertiary: #6b7280;
+            --text-on-primary: #ffffff;
+            
+            --border: #fee2e2;
+            --border-hover: #fecaca;
+            
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --error: #dc2626;
+            
+            --gradient-start: #f43f5e;
+            --gradient-end: #be123c;
+        }
+        
+        [data-theme="warm-coral"][data-mode="dark"] {
+            --primary: #fb7185;
+            --primary-hover: #fda4af;
+            --primary-light: #1f2937;
+            --primary-dark: #fecdd3;
+            
+            --secondary: #f43f5e;
+            --secondary-hover: #fb7185;
+            --secondary-light: #1f2937;
+            
+            --surface-1: #1f2937;
+            --surface-2: #374151;
+            --surface-3: #4b5563;
+            --surface-4: #6b7280;
+            --surface-5: #9ca3af;
+            
+            --text-primary: #f9fafb;
+            --text-secondary: #e5e7eb;
+            --text-tertiary: #d1d5db;
+            --text-on-primary: #1f2937;
+            
+            --border: #4b5563;
+            --border-hover: #6b7280;
+            
+            --success: #22c55e;
+            --warning: #fbbf24;
+            --error: #ef4444;
+            
+            --gradient-start: #be123c;
+            --gradient-end: #9f1239;
+        }
+        
+        /* ============================================
+           THEME: NEUTRAL GRAY
+           ============================================ */
+        [data-theme="neutral-gray"][data-mode="light"] {
+            --primary: #475569;
+            --primary-hover: #334155;
+            --primary-light: #f1f5f9;
+            --primary-dark: #1e293b;
+            
+            --secondary: #64748b;
+            --secondary-hover: #475569;
+            --secondary-light: #e2e8f0;
+            
+            --surface-1: #ffffff;
+            --surface-2: #f8fafc;
+            --surface-3: #f1f5f9;
+            --surface-4: #e2e8f0;
+            --surface-5: #cbd5e1;
+            
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-tertiary: #64748b;
+            --text-on-primary: #ffffff;
+            
+            --border: #e2e8f0;
+            --border-hover: #cbd5e1;
+            
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --error: #dc2626;
+            
+            --gradient-start: #475569;
+            --gradient-end: #1e293b;
+        }
+        
+        [data-theme="neutral-gray"][data-mode="dark"] {
+            --primary: #94a3b8;
+            --primary-hover: #cbd5e1;
+            --primary-light: #1e293b;
+            --primary-dark: #e2e8f0;
+            
+            --secondary: #64748b;
+            --secondary-hover: #94a3b8;
+            --secondary-light: #1e293b;
+            
+            --surface-1: #0f172a;
+            --surface-2: #1e293b;
+            --surface-3: #334155;
+            --surface-4: #475569;
+            --surface-5: #64748b;
+            
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+            --text-on-primary: #0f172a;
+            
+            --border: #334155;
+            --border-hover: #475569;
+            
+            --success: #22c55e;
+            --warning: #fbbf24;
+            --error: #ef4444;
+            
+            --gradient-start: #334155;
+            --gradient-end: #1e293b;
+        }
+        
+        /* ============================================
+           BASE STYLES
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            min-height: 100vh;
+            padding: var(--space-lg);
+            transition: background var(--transition-slow);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: var(--surface-1);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            transition: background var(--transition-base);
+        }
+
+        /* ============================================
+           HEADER
+           ============================================ */
+        .header {
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--text-on-primary);
+            padding: var(--space-2xl);
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: var(--font-size-4xl);
+            margin-bottom: var(--space-md);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: var(--font-size-lg);
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        /* Theme Controls in Header */
+        .theme-controls {
+            position: absolute;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            display: flex;
+            gap: var(--space-sm);
+            align-items: center;
+        }
+
+        .theme-btn, .mode-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-full);
+            padding: var(--space-sm) var(--space-md);
+            color: var(--text-on-primary);
+            cursor: pointer;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            transition: all var(--transition-fast);
+            backdrop-filter: blur(10px);
+        }
+
+        .theme-btn:hover, .mode-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .mode-toggle {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--font-size-lg);
+        }
+
+        /* ============================================
+           TABS
+           ============================================ */
+        .tabs {
+            display: flex;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .tab-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: all var(--transition-base);
+            border-radius: var(--radius-full) var(--radius-full) 0 0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: var(--space-lg);
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all var(--transition-fast);
+            border: none;
+            background: none;
+            font-size: var(--font-size-base);
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab:hover {
+            background: var(--surface-3);
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            background: var(--surface-1);
+            color: var(--primary);
+        }
+
+        /* ============================================
+           CONTENT
+           ============================================ */
+        .content {
+            padding: var(--space-xl);
+            background: var(--surface-1);
+        }
+
+        .panel {
+            display: none;
+            animation: fadeIn var(--transition-base);
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .section-title {
+            font-size: var(--font-size-2xl);
+            color: var(--text-primary);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        /* ============================================
+           FORM ELEMENTS
+           ============================================ */
+        .input-group {
+            margin-bottom: var(--space-lg);
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: var(--space-md);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-base);
+            transition: all var(--transition-fast);
+            font-family: inherit;
+            background: var(--surface-1);
+            color: var(--text-primary);
+        }
+
+        input[type="text"]:hover,
+        select:hover,
+        textarea:hover {
+            border-color: var(--border-hover);
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        /* ============================================
+           CARDS
+           ============================================ */
+        .strand-section {
+            background: var(--surface-2);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+            transition: all var(--transition-base);
+        }
+
+        .strand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .strand-title {
+            font-size: var(--font-size-xl);
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .outcome-card {
+            background: var(--surface-1);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
+            transition: all var(--transition-base);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .outcome-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .outcome-card.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .outcome-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--space-md);
+            gap: var(--space-md);
+        }
+
+        .outcome-checkbox {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--primary);
+        }
+
+        .outcome-title {
+            font-weight: 700;
+            font-size: var(--font-size-lg);
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        /* ============================================
+           BUTTONS
+           ============================================ */
+        .level-selector {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+
+        .level-btn {
+            flex: 1;
+            padding: var(--space-md);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface-1);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        .level-btn:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .level-btn.active {
+            background: var(--primary);
+            color: var(--text-on-primary);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .level-btn small {
+            display: block;
+            font-size: var(--font-size-xs);
+            opacity: 0.8;
+            margin-top: var(--space-xs);
+        }
+
+        .btn {
+            padding: var(--space-md) var(--space-xl);
+            border: none;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: var(--font-size-base);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--text-on-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--text-on-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary-hover);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+        }
+
+        .btn-small {
+            padding: var(--space-sm) var(--space-md);
+            font-size: var(--font-size-sm);
+        }
+
+        /* ============================================
+           OUTPUT AREA
+           ============================================ */
+        .output-area {
+            position: relative;
+        }
+
+        .char-counter {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            background: var(--primary);
+            color: var(--text-on-primary);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            z-index: 10;
+            box-shadow: var(--shadow-md);
+        }
+
+        .char-counter.warning {
+            background: var(--warning);
+        }
+
+        .char-counter.error {
+            background: var(--error);
+        }
+
+        textarea#outputComment {
+            min-height: 200px;
+            padding-top: calc(var(--space-2xl) + var(--space-lg));
+            font-size: var(--font-size-lg);
+            line-height: 1.6;
+            resize: vertical;
+        }
+
+        /* ============================================
+           UTILITIES
+           ============================================ */
+        .button-group {
+            display: flex;
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+            flex-wrap: wrap;
+        }
+
+        .alert {
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--text-primary);
+        }
+
+        .alert-success {
+            background: rgba(22, 163, 74, 0.1);
+            border-color: var(--success);
+            color: var(--text-primary);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: start;
+        }
+
+        @media (min-width: 769px) {
+            .grid-2 > div:last-child {
+                position: sticky;
+                top: var(--space-lg);
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+        }
+
+        .class-selector {
+            background: var(--surface-1);
+            border: 2px solid var(--primary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .class-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            background: var(--surface-2);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+        }
+
+        .class-item:hover {
+            background: var(--surface-3);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .class-item.active {
+            background: var(--primary);
+            color: var(--text-on-primary);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .class-name {
+            font-weight: 600;
+            font-size: var(--font-size-lg);
+        }
+
+        /* ============================================
+           MODAL
+           ============================================ */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: var(--space-lg);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--surface-1);
+            border-radius: var(--radius-xl);
+            padding: var(--space-2xl);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-xl);
+            animation: modalSlideIn var(--transition-base);
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            font-size: var(--font-size-3xl);
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+            color: var(--text-primary);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: var(--space-md);
+            justify-content: flex-end;
+            margin-top: var(--space-lg);
+        }
+
+        /* ============================================
+           COLLAPSIBLE
+           ============================================ */
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .collapsible::before {
+            content: '▼';
+            display: inline-block;
+            transition: transform var(--transition-base);
+            font-size: var(--font-size-sm);
+        }
+
+        .collapsible.collapsed::before {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            max-height: 5000px;
+            overflow: hidden;
+            transition: max-height var(--transition-slow);
+        }
+
+        .collapsible-content.hidden {
+            max-height: 0;
+        }
+
+        /* ============================================
+           TEMPLATE EDITOR
+           ============================================ */
+        .template-group {
+            background: var(--surface-2);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+        }
+
+        .template-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+            display: block;
+            font-size: var(--font-size-sm);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        textarea.template-input {
+            min-height: 80px;
+            font-size: var(--font-size-sm);
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-md);
+            }
+
+            .header {
+                padding: var(--space-lg);
+            }
+
+            .header h1 {
+                font-size: var(--font-size-3xl);
+            }
+
+            .theme-controls {
+                position: static;
+                justify-content: center;
+                margin-top: var(--space-md);
+            }
+
+            .content {
+                padding: var(--space-lg);
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .grid-2 > div:first-child {
+                order: 2;
+            }
+            
+            .grid-2 > div:last-child {
+                order: 1;
+            }
+
+            .level-selector {
+                flex-direction: column;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .tab {
+                min-width: 120px;
+            }
+        }
+
+        /* ============================================
+           SCROLLBAR STYLING
+           ============================================ */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--surface-2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--surface-4);
+            border-radius: var(--radius-md);
+            border: 2px solid var(--surface-2);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--surface-5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="theme-controls">
+                <select class="theme-btn" id="themeSelector" onchange="changeTheme(this.value)">
+                    <option value="educator-blue">Educator Blue</option>
+                    <option value="forest-green">Forest Green</option>
+                    <option value="warm-coral">Warm Coral</option>
+                    <option value="neutral-gray">Neutral Gray</option>
+                </select>
+                <button class="mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
+                    <span id="modeIcon">🌙</span>
+                </button>
+            </div>
+            <h1>📝 Report Card Comment Builder</h1>
+            <p>Professional Multi-Class Comment Generator with Material 3 Design</p>
+        </div>
+
+        <div class="tabs">
+            <div class="tab-indicator" id="tabIndicator"></div>
+            <button class="tab active" data-tab="builder">Comment Builder</button>
+            <button class="tab" data-tab="manage">Manage Classes</button>
+            <button class="tab" data-tab="editor">Template Editor</button>
+            <button class="tab" data-tab="resources">Resources</button>
+        </div>
+
+        <div class="content">
+            <!-- BUILDER PANEL -->
+            <div id="builderPanel" class="panel active">
+                <div class="grid-2">
+                    <!-- LEFT COLUMN: Class & Outcomes -->
+                    <div>
+                        <div class="section">
+                            <h2 class="section-title">Select Class</h2>
+                            <div id="classSelector"></div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Select Outcomes</h2>
+                            <div id="strandsContainer"></div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Optional Ending</h2>
+                            <div class="input-group">
+                                <label for="endingSelect">Closing Comment (Optional)</label>
+                                <select id="endingSelect">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="engagementSelect">Class Engagement (Optional)</label>
+                                <select id="engagementSelect">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateCommentAndScroll()" style="width: 100%;">
+                            🚀 Generate Comment
+                        </button>
+                        <p style="text-align: center; color: var(--text-tertiary); margin-top: var(--space-md); font-size: var(--font-size-sm);">
+                            Generates and scrolls to top to see result
+                        </p>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Student Info & Output -->
+                    <div>
+                        <div class="section">
+                            <h2 class="section-title">Student Information</h2>
+                            <div class="input-group">
+                                <label for="studentName">Student Name</label>
+                                <input type="text" id="studentName" placeholder="Enter student's first name">
+                            </div>
+                            <div class="input-group">
+                                <label for="pronouns">Pronouns</label>
+                                <select id="pronouns">
+                                    <option value="they">they/them</option>
+                                    <option value="she">she/her</option>
+                                    <option value="he">he/him</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateComment()" style="width: 100%; margin-bottom: var(--space-lg);">
+                            🚀 Generate Comment
+                        </button>
+
+                        <div class="section">
+                            <h2 class="section-title">Generated Comment</h2>
+                            <div class="output-area">
+                                <span class="char-counter" id="charCounter">0/700</span>
+                                <textarea id="outputComment" placeholder="Your generated comment will appear here..."></textarea>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-success" onclick="copyToClipboard()">
+                                    📋 Copy to Clipboard
+                                </button>
+                                <button class="btn btn-secondary" onclick="clearAll()">
+                                    🗑️ Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MANAGE CLASSES PANEL -->
+            <div id="managePanel" class="panel">
+                <div class="alert alert-info">
+                    <strong>Manage Classes</strong><br>
+                    Create and organize classes with their own strands and outcomes. Each class can have unique curriculum content.
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Import / Export Data</h2>
+                    <div class="template-group">
+                        <p style="margin-bottom: var(--space-md); color: var(--text-secondary);">
+                            Import a JSON file to load classes and templates, or export your current data for backup or sharing with colleagues.
+                        </p>
+                        <div class="button-group">
+                            <button class="btn btn-success" onclick="document.getElementById('importFile').click()">
+                                📥 Import JSON File
+                            </button>
+                            <button class="btn btn-primary" onclick="exportData()">
+                                📤 Export All Data
+                            </button>
+                            <button class="btn btn-secondary" onclick="showImportInstructions()">
+                                ℹ️ Instructions
+                            </button>
+                        </div>
+                        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        Your Classes
+                        <button class="btn btn-primary btn-small" onclick="showAddClassModal()">
+                            ➕ Add New Class
+                        </button>
+                    </h2>
+                    <div id="classesList"></div>
+                </div>
+            </div>
+
+            <!-- EDITOR PANEL -->
+            <div id="editorPanel" class="panel">
+                <div class="alert alert-info">
+                    <strong>Template Editor</strong><br>
+                    Edit comment templates for the selected class. Changes are saved automatically.
+                </div>
+
+                <div class="section">
+                    <div class="input-group">
+                        <label for="editorClassSelect">Select Class to Edit</label>
+                        <select id="editorClassSelect" onchange="renderTemplateEditor()">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        Manage Strands & Outcomes
+                        <button class="btn btn-primary btn-small" onclick="showAddStrandModal()">
+                            ➕ Add Strand
+                        </button>
+                    </h2>
+                    <div id="templateEditor"></div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="saveAllTemplates()">
+                        💾 Save All Changes
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESOURCES PANEL -->
+            <div id="resourcesPanel" class="panel">
+                <div class="alert alert-success">
+                    <strong>🎓 Create Your Own Classes with AI</strong><br>
+                    Use these resources to generate complete comment banks for any subject using ChatGPT or Claude AI.
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">📄 Download Blank Template</h2>
+                    <div class="template-group">
+                        <p style="margin-bottom: var(--space-md); color: var(--text-secondary);">
+                            Download the blank JSON template that you'll give to the AI along with your curriculum.
+                        </p>
+                        <button class="btn btn-success" onclick="downloadBlankTemplate()">
+                            📥 Download template-blank.json
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">🤖 AI Prompt for Generating Templates</h2>
+                    <div class="template-group">
+                        <p style="margin-bottom: var(--space-md); color: var(--text-secondary); font-weight: 600;">
+                            Copy this prompt and give the AI these <strong>THREE things</strong>:
+                        </p>
+                        <ol style="margin-bottom: var(--space-lg); margin-left: var(--space-lg); color: var(--text-secondary); line-height: 1.8;">
+                            <li><strong>This prompt</strong> (click Copy Prompt below)</li>
+                            <li><strong>The blank template file</strong> (template-blank.json)</li>
+                            <li><strong>Your curriculum document</strong> (PDF, Word doc, or paste the text)</li>
+                        </ol>
+                        
+                        <div style="background: var(--surface-3); border: 2px solid var(--primary); border-radius: var(--radius-md); padding: var(--space-lg); margin-bottom: var(--space-md);">
+                            <pre id="aiPrompt" style="white-space: pre-wrap; font-family: inherit; font-size: var(--font-size-sm); line-height: 1.6; margin: 0; color: var(--text-primary);">I need you to create a JSON file for a report card comment builder app.
+
+<strong>IMPORTANT: I am providing you with THREE things:</strong>
+1. This prompt with instructions
+2. A blank template file (template-blank.json) showing the required structure
+3. My curriculum document
+
+<strong>CLASS INFORMATION:</strong>
+Class Name: [e.g., "Grade 7 English Language Arts"]
+Subject: [e.g., "ELA"]
+
+<strong>CURRICULUM:</strong>
+[I will paste my curriculum outcomes below or attach the document]
+
+<strong>YOUR TASK:</strong>
+Create a complete JSON file following the EXACT structure from template-blank.json.
+
+For EACH outcome, write THREE comment templates:
+- <strong>Level 2 (Approaching):</strong> Student is developing, needs support, working toward expectations
+- <strong>Level 3 (Meeting):</strong> Student meets grade-level expectations, demonstrates solid understanding
+- <strong>Level 3+ (Strong/Exceeding):</strong> Student exceeds expectations, shows strong mastery
+
+<strong>TEMPLATE REQUIREMENTS:</strong>
+- Each template must be 110-140 characters long
+- Use these placeholders: {Name}, {They}, {they}, {Their}, {their}, {Them}, {them}
+- Use professional, positive language focusing on what students CAN do
+- Be specific to each outcome
+- Vary the language between levels
+
+<strong>ALSO CREATE:</strong>
+- 4-6 optional ending comments (general, positive, varied)
+- 4-6 optional engagement comments using {They}/{they} placeholders
+
+<strong>JSON STRUCTURE:</strong>
+Follow the template-blank.json structure exactly:
+- Unique IDs for class, strands, and outcomes (lowercase, no spaces)
+- All three templates ("2", "3", "3plus") for each outcome
+- Both endingOptions and engagementOptions arrays
+
+Please generate the complete, valid JSON file now.</pre>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button class="btn btn-primary" onclick="copyAIPrompt()">
+                                📋 Copy Prompt
+                            </button>
+                            <button class="btn btn-secondary" onclick="alert('After copying:\n\n1. Go to ChatGPT or Claude AI\n2. Paste this prompt\n3. Upload template-blank.json\n4. Upload or paste your curriculum\n5. AI generates your complete JSON\n6. Download it and import here!')">
+                                ℹ️ How to Use
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">📝 Step-by-Step Instructions</h2>
+                    <div class="template-group">
+                        <div style="background: var(--surface-1); border-left: 4px solid var(--primary); padding: var(--space-lg); border-radius: var(--radius-md);">
+                            <h3 style="color: var(--primary); margin-bottom: var(--space-md);">How to Generate Your Class Templates:</h3>
+                            
+                            <div style="margin-bottom: var(--space-lg);">
+                                <strong style="color: var(--primary);">Step 1: Download the Template</strong>
+                                <p style="margin: var(--space-sm) 0 0 0; color: var(--text-secondary);">Click "Download template-blank.json" above</p>
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-lg);">
+                                <strong style="color: var(--primary);">Step 2: Copy the AI Prompt</strong>
+                                <p style="margin: var(--space-sm) 0 0 0; color: var(--text-secondary);">Click "Copy Prompt" above</p>
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-lg);">
+                                <strong style="color: var(--primary);">Step 3: Open ChatGPT or Claude AI</strong>
+                                <p style="margin: var(--space-sm) 0 0 0; color: var(--text-secondary);">
+                                    • ChatGPT: <a href="https://chat.openai.com" target="_blank" style="color: var(--primary);">chat.openai.com</a><br>
+                                    • Claude: <a href="https://claude.ai" target="_blank" style="color: var(--primary);">claude.ai</a>
+                                </p>
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-lg);">
+                                <strong style="color: var(--primary);">Step 4: Give the AI All THREE Things</strong>
+                                <p style="margin: var(--space-sm) 0 0 0; color: var(--text-secondary);">
+                                    1. <strong>Paste the prompt</strong> you copied<br>
+                                    2. <strong>Upload template-blank.json</strong><br>
+                                    3. <strong>Upload or paste your curriculum document</strong>
+                                </p>
+                            </div>
+                            
+                            <div style="margin-bottom: var(--space-lg);">
+                                <strong style="color: var(--primary);">Step 5: Review and Download</strong>
+                                <p style="margin: var(--space-sm) 0 0 0; color: var(--text-secondary);">
+                                    The AI will generate a complete JSON file with all your outcomes and templates. Copy the JSON output and save it as a .json file.
+                                </p>
+                            </div>
+                            
+                            <div>
+                                <strong style="color: var(--primary);">Step 6: Import into This App</strong>
+                                <p style="margin: var(--space-sm) 0 0 0; color: var(--text-secondary);">
+                                    Go to "Manage Classes" tab → "Import JSON File" → Select your file → Done! 🎉
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">💡 Tips for Best Results</h2>
+                    <div class="template-group">
+                        <ul style="margin-left: var(--space-lg); color: var(--text-secondary); line-height: 1.8;">
+                            <li><strong>Be specific:</strong> The more detailed your curriculum document, the better the templates</li>
+                            <li><strong>Review the output:</strong> Always check the AI-generated templates before importing</li>
+                            <li><strong>Iterate:</strong> If templates aren't quite right, ask the AI to revise specific ones</li>
+                            <li><strong>Check character count:</strong> Templates should be 110-140 characters</li>
+                            <li><strong>Test with one strand:</strong> Start small to make sure it works before doing all strands</li>
+                            <li><strong>Use GPT-4 or Claude 3.5:</strong> Better quality than free versions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add New Class</h2>
+            <div class="input-group">
+                <label for="newClassName">Class Name</label>
+                <input type="text" id="newClassName" placeholder="e.g., Grade 6 Math">
+            </div>
+            <div class="input-group">
+                <label for="newClassSubject">Subject (optional)</label>
+                <input type="text" id="newClassSubject" placeholder="e.g., Mathematics">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addClassModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addNewClass()">Create Class</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Strand Modal -->
+    <div id="addStrandModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add New Strand</h2>
+            <div class="input-group">
+                <label for="newStrandName">Strand Name</label>
+                <input type="text" id="newStrandName" placeholder="e.g., Number Sense">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addStrandModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addNewStrand()">Add Strand</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Outcome Modal -->
+    <div id="addOutcomeModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add New Outcome</h2>
+            <input type="hidden" id="outcomeStrandId">
+            <div class="input-group">
+                <label for="newOutcomeTitle">Outcome Title</label>
+                <input type="text" id="newOutcomeTitle" placeholder="e.g., Place Value to the Millions">
+            </div>
+            <div class="input-group">
+                <label for="newOutcomeLevel2">Level 2 Template (Approaching)</label>
+                <textarea id="newOutcomeLevel2" class="template-input" placeholder="Use {Name}, {they}, {their}, etc."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="newOutcomeLevel3">Level 3 Template (Meeting)</label>
+                <textarea id="newOutcomeLevel3" class="template-input" placeholder="Use {Name}, {they}, {their}, etc."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="newOutcomeLevel3plus">Level 3+ Template (Strong)</label>
+                <textarea id="newOutcomeLevel3plus" class="template-input" placeholder="Use {Name}, {they}, {their}, etc."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addOutcomeModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveNewOutcome()">Add Outcome</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // THEME SYSTEM
+        // ============================================
+        function changeTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('selectedTheme', theme);
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const currentMode = html.getAttribute('data-mode');
+            const newMode = currentMode === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-mode', newMode);
+            localStorage.setItem('darkMode', newMode);
+            
+            // Update icon
+            document.getElementById('modeIcon').textContent = newMode === 'dark' ? '☀️' : '🌙';
+        }
+
+        // Load saved theme preferences
+        function loadThemePreferences() {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'educator-blue';
+            const savedMode = localStorage.getItem('darkMode') || 'light';
+            
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.documentElement.setAttribute('data-mode', savedMode);
+            document.getElementById('themeSelector').value = savedTheme;
+            document.getElementById('modeIcon').textContent = savedMode === 'dark' ? '☀️' : '🌙';
+        }
+
+        // ============================================
+        // DATABASE & CORE LOGIC (from original)
+        // ============================================
+        const defaultDatabase = {
+            classes: {
+                grade6Math: {
+                    name: "Grade 6 Math",
+                    subject: "Mathematics",
+                    strands: {
+                        number: {
+                            name: "Number",
+                            outcomes: {
+                                placeValue: {
+                                    title: "Place Value to the Millions",
+                                    templates: {
+                                        "2": "{Name} is developing confidence with place value to the millions. {They} can identify most place values with support but need reminders to read large numbers accurately.",
+                                        "3": "{Name} demonstrates solid understanding of place value to the millions and reads, writes, and compares large numbers with good accuracy.",
+                                        "3plus": "{Name} shows strong mastery of place value to the millions and confidently reads, writes, and compares large numbers with consistent accuracy."
+                                    }
+                                },
+                                decimals: {
+                                    title: "Adding & Subtracting Decimals to Thousandths",
+                                    templates: {
+                                        "2": "{Name} is working on adding and subtracting decimals accurately. {They} understand lining up the place values but still need support with consistency.",
+                                        "3": "{Name} adds and subtracts decimals to the thousandths with solid accuracy and lines up place values correctly in most situations.",
+                                        "3plus": "{Name} consistently adds and subtracts decimals to the thousandths with accuracy and clear reasoning."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            endingOptions: [
+                "They have strong foundational skills and could excel with increased focus.",
+                "They consistently engage with lessons and contribute to class discussions.",
+                "They benefit from checking their work and taking time with multi-step tasks.",
+                "They are a curious learner who approaches math with confidence."
+            ],
+            engagementOptions: [
+                "{They} actively participate in class discussions and share insightful ideas.",
+                "{They} contribute thoughtfully to class discussions when prompted.",
+                "{They} are beginning to share their ideas more confidently in class.",
+                "{They} listen attentively and engage with partner discussions."
+            ],
+            currentClass: "grade6Math"
+        };
+
+        let database = JSON.parse(localStorage.getItem('commentDatabaseV2')) || JSON.parse(JSON.stringify(defaultDatabase));
+
+        function saveDatabase() {
+            localStorage.setItem('commentDatabaseV2', JSON.stringify(database));
+        }
+
+        function init() {
+            loadThemePreferences();
+            renderClassSelector();
+            renderClassesList();
+            renderEditorClassSelect();
+            renderTemplateEditor();
+            renderStrands();
+            renderEndingOptions();
+            renderEngagementOptions();
+            setupTabs();
+            updateCharCounter();
+        }
+
+        function setupTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const indicator = document.getElementById('tabIndicator');
+            
+            function updateIndicator(tab) {
+                const tabRect = tab.getBoundingClientRect();
+                const tabsRect = tab.parentElement.getBoundingClientRect();
+                indicator.style.width = tabRect.width + 'px';
+                indicator.style.left = (tabRect.left - tabsRect.left) + 'px';
+            }
+            
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    updateIndicator(tab);
+                    
+                    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                    document.getElementById(tabName + 'Panel').classList.add('active');
+                });
+                
+                // Set initial indicator position
+                if (index === 0) {
+                    setTimeout(() => updateIndicator(tab), 100);
+                }
+            });
+            
+            // Update indicator on window resize
+            window.addEventListener('resize', () => {
+                const activeTab = document.querySelector('.tab.active');
+                if (activeTab) updateIndicator(activeTab);
+            });
+        }
+
+        function getCurrentClass() {
+            return database.classes[database.currentClass];
+        }
+
+        function renderClassSelector() {
+            const container = document.getElementById('classSelector');
+            container.innerHTML = '';
+
+            Object.keys(database.classes).forEach(classId => {
+                const classData = database.classes[classId];
+                const item = document.createElement('div');
+                item.className = 'class-item' + (classId === database.currentClass ? ' active' : '');
+                item.onclick = () => selectClass(classId);
+                item.innerHTML = `
+                    <div>
+                        <div class="class-name">${classData.name}</div>
+                        ${classData.subject ? `<small style="opacity: 0.8;">${classData.subject}</small>` : ''}
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function selectClass(classId) {
+            database.currentClass = classId;
+            saveDatabase();
+            renderClassSelector();
+            renderStrands();
+        }
+
+        function renderStrands() {
+            const container = document.getElementById('strandsContainer');
+            container.innerHTML = '';
+            
+            const currentClass = getCurrentClass();
+            if (!currentClass || !currentClass.strands) return;
+
+            Object.keys(currentClass.strands).forEach(strandId => {
+                const strand = currentClass.strands[strandId];
+                const strandDiv = document.createElement('div');
+                strandDiv.className = 'strand-section';
+                
+                let outcomesHTML = '';
+                Object.keys(strand.outcomes).forEach(outcomeId => {
+                    const outcome = strand.outcomes[outcomeId];
+                    outcomesHTML += `
+                        <div class="outcome-card" id="outcome-${strandId}-${outcomeId}">
+                            <div class="outcome-header">
+                                <input type="checkbox" class="outcome-checkbox" id="check-${strandId}-${outcomeId}" 
+                                       onchange="toggleOutcome('${strandId}', '${outcomeId}')">
+                                <div class="outcome-title">${outcome.title}</div>
+                            </div>
+                            <div class="level-selector" id="levels-${strandId}-${outcomeId}" style="display: none;">
+                                <button class="level-btn" onclick="selectLevel('${strandId}', '${outcomeId}', '2')">
+                                    Level 2<br><small>Approaching</small>
+                                </button>
+                                <button class="level-btn" onclick="selectLevel('${strandId}', '${outcomeId}', '3')">
+                                    Level 3<br><small>Meeting</small>
+                                </button>
+                                <button class="level-btn" onclick="selectLevel('${strandId}', '${outcomeId}', '3plus')">
+                                    Level 3+<br><small>Strong</small>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                strandDiv.innerHTML = `
+                    <div class="strand-header">
+                        <div class="strand-title collapsible" onclick="toggleCollapse(this)">${strand.name}</div>
+                    </div>
+                    <div class="collapsible-content">
+                        ${outcomesHTML}
+                    </div>
+                `;
+                
+                container.appendChild(strandDiv);
+            });
+        }
+
+        function toggleCollapse(element) {
+            element.classList.toggle('collapsed');
+            const content = element.parentElement.nextElementSibling;
+            content.classList.toggle('hidden');
+        }
+
+        function renderEndingOptions() {
+            const select = document.getElementById('endingSelect');
+            select.innerHTML = '<option value="">None</option>';
+            
+            database.endingOptions.forEach((option, index) => {
+                const opt = document.createElement('option');
+                opt.value = index;
+                opt.textContent = option.substring(0, 60) + '...';
+                select.appendChild(opt);
+            });
+        }
+
+        function renderEngagementOptions() {
+            const select = document.getElementById('engagementSelect');
+            select.innerHTML = '<option value="">None</option>';
+            
+            if (!database.engagementOptions) {
+                database.engagementOptions = [];
+            }
+            
+            database.engagementOptions.forEach((option, index) => {
+                const opt = document.createElement('option');
+                opt.value = index;
+                const preview = option.replace(/\{They\}/g, 'They').replace(/\{they\}/g, 'they');
+                opt.textContent = preview.substring(0, 60) + '...';
+                select.appendChild(opt);
+            });
+        }
+
+        function toggleOutcome(strandId, outcomeId) {
+            const checkbox = document.getElementById(`check-${strandId}-${outcomeId}`);
+            const levelsDiv = document.getElementById(`levels-${strandId}-${outcomeId}`);
+            const card = document.getElementById(`outcome-${strandId}-${outcomeId}`);
+            
+            if (checkbox.checked) {
+                levelsDiv.style.display = 'flex';
+                card.classList.add('selected');
+            } else {
+                levelsDiv.style.display = 'none';
+                card.classList.remove('selected');
+                levelsDiv.querySelectorAll('.level-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+        }
+
+        function selectLevel(strandId, outcomeId, level) {
+            const levelsDiv = document.getElementById(`levels-${strandId}-${outcomeId}`);
+            levelsDiv.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const clickedButton = event.target.closest('.level-btn');
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+        }
+
+        function getPronouns(baseForm) {
+            const pronounMap = {
+                'they': { they: 'they', them: 'them', their: 'their', They: 'They', Them: 'Them', Their: 'Their' },
+                'she': { they: 'she', them: 'her', their: 'her', They: 'She', Them: 'Her', Their: 'Her' },
+                'he': { they: 'he', them: 'him', their: 'his', They: 'He', Them: 'Him', Their: 'His' }
+            };
+            return pronounMap[baseForm];
+        }
+
+        function generateComment() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const pronounBase = document.getElementById('pronouns').value;
+            const endingIndex = document.getElementById('endingSelect').value;
+            
+            if (!studentName) {
+                alert('Please enter a student name.');
+                return;
+            }
+
+            const pronouns = getPronouns(pronounBase);
+            let commentParts = [];
+            const currentClass = getCurrentClass();
+            let missingLevels = [];
+
+            Object.keys(currentClass.strands).forEach(strandId => {
+                const strand = currentClass.strands[strandId];
+                Object.keys(strand.outcomes).forEach(outcomeId => {
+                    const checkbox = document.getElementById(`check-${strandId}-${outcomeId}`);
+                    if (checkbox && checkbox.checked) {
+                        const levelsDiv = document.getElementById(`levels-${strandId}-${outcomeId}`);
+                        const activeBtn = levelsDiv.querySelector('.level-btn.active');
+                        
+                        if (activeBtn) {
+                            const onclickStr = activeBtn.getAttribute('onclick');
+                            const levelMatch = onclickStr.match(/'([^']+)',\s*'([^']+)',\s*'([^']+)'/);
+                            
+                            if (levelMatch && levelMatch[3]) {
+                                const level = levelMatch[3];
+                                let template = strand.outcomes[outcomeId].templates[level];
+                            
+                                if (template) {
+                                    template = template.replace(/\{Name\}/g, studentName);
+                                    template = template.replace(/\{They\}/g, pronouns.They);
+                                    template = template.replace(/\{they\}/g, pronouns.they);
+                                    template = template.replace(/\{Them\}/g, pronouns.Them);
+                                    template = template.replace(/\{them\}/g, pronouns.them);
+                                    template = template.replace(/\{Their\}/g, pronouns.Their);
+                                    template = template.replace(/\{their\}/g, pronouns.their);
+                                    
+                                    commentParts.push(template);
+                                }
+                            }
+                        } else {
+                            missingLevels.push(strand.outcomes[outcomeId].title);
+                        }
+                    }
+                });
+            });
+
+            if (missingLevels.length > 0) {
+                alert('Please select an achievement level for:\n\n' + missingLevels.join('\n'));
+                return;
+            }
+
+            if (commentParts.length === 0) {
+                alert('Please select at least one outcome and achievement level.');
+                return;
+            }
+
+            let fullComment = commentParts.join(' ');
+
+            const engagementIndex = document.getElementById('engagementSelect').value;
+            if (engagementIndex !== '') {
+                let engagement = database.engagementOptions[parseInt(engagementIndex)];
+                engagement = engagement.replace(/\{They\}/g, pronouns.They);
+                engagement = engagement.replace(/\{they\}/g, pronouns.they);
+                engagement = engagement.replace(/\{Them\}/g, pronouns.Them);
+                engagement = engagement.replace(/\{them\}/g, pronouns.them);
+                engagement = engagement.replace(/\{Their\}/g, pronouns.Their);
+                engagement = engagement.replace(/\{their\}/g, pronouns.their);
+                
+                const withEngagement = fullComment + ' ' + engagement;
+                if (withEngagement.length <= 700) {
+                    fullComment = withEngagement;
+                }
+            }
+
+            if (endingIndex !== '') {
+                const ending = database.endingOptions[parseInt(endingIndex)];
+                const withEnding = fullComment + ' ' + ending;
+                if (withEnding.length <= 700) {
+                    fullComment = withEnding;
+                }
+            }
+
+            document.getElementById('outputComment').value = fullComment;
+            updateCharCounter();
+        }
+
+        function generateCommentAndScroll() {
+            generateComment();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateCharCounter() {
+            const textarea = document.getElementById('outputComment');
+            const counter = document.getElementById('charCounter');
+            const count = textarea.value.length;
+            
+            counter.textContent = `${count}/700`;
+            
+            counter.classList.remove('warning', 'error');
+            if (count > 700) {
+                counter.classList.add('error');
+            } else if (count > 650) {
+                counter.classList.add('warning');
+            }
+        }
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('outputComment');
+            if (!textarea.value) {
+                alert('No comment to copy!');
+                return;
+            }
+            
+            textarea.select();
+            document.execCommand('copy');
+            alert('Comment copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('studentName').value = '';
+            document.getElementById('pronouns').value = 'they';
+            document.getElementById('endingSelect').value = '';
+            document.getElementById('engagementSelect').value = '';
+            document.getElementById('outputComment').value = '';
+            
+            document.querySelectorAll('.outcome-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            document.querySelectorAll('.outcome-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.level-selector').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            updateCharCounter();
+        }
+
+        function renderClassesList() {
+            const container = document.getElementById('classesList');
+            container.innerHTML = '';
+
+            Object.keys(database.classes).forEach(classId => {
+                const classData = database.classes[classId];
+                const strandCount = Object.keys(classData.strands || {}).length;
+                
+                const classDiv = document.createElement('div');
+                classDiv.className = 'template-group';
+                classDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+                        <div>
+                            <div style="font-size: var(--font-size-xl); font-weight: 700; color: var(--text-primary);">${classData.name}</div>
+                            <div style="color: var(--text-tertiary); margin-top: var(--space-xs);">${classData.subject || 'No subject'} • ${strandCount} strand(s)</div>
+                        </div>
+                        <button class="btn btn-danger btn-small" onclick="deleteClass('${classId}')">Delete</button>
+                    </div>
+                `;
+                container.appendChild(classDiv);
+            });
+        }
+
+        function showAddClassModal() {
+            document.getElementById('addClassModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function addNewClass() {
+            const name = document.getElementById('newClassName').value.trim();
+            const subject = document.getElementById('newClassSubject').value.trim();
+            
+            if (!name) {
+                alert('Please enter a class name.');
+                return;
+            }
+            
+            const classId = name.toLowerCase().replace(/\s+/g, '') + Date.now();
+            database.classes[classId] = {
+                name: name,
+                subject: subject,
+                strands: {}
+            };
+            
+            saveDatabase();
+            renderClassesList();
+            renderClassSelector();
+            renderEditorClassSelect();
+            closeModal('addClassModal');
+            
+            document.getElementById('newClassName').value = '';
+            document.getElementById('newClassSubject').value = '';
+        }
+
+        function deleteClass(classId) {
+            if (Object.keys(database.classes).length === 1) {
+                alert('Cannot delete the last class.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to delete this class? This cannot be undone.')) {
+                delete database.classes[classId];
+                if (database.currentClass === classId) {
+                    database.currentClass = Object.keys(database.classes)[0];
+                }
+                saveDatabase();
+                renderClassesList();
+                renderClassSelector();
+                renderEditorClassSelect();
+                renderStrands();
+            }
+        }
+
+        function renderEditorClassSelect() {
+            const select = document.getElementById('editorClassSelect');
+            select.innerHTML = '';
+            
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '-- Select a class to edit --';
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            select.appendChild(placeholder);
+            
+            Object.keys(database.classes).forEach(classId => {
+                const option = document.createElement('option');
+                option.value = classId;
+                option.textContent = database.classes[classId].name;
+                select.appendChild(option);
+            });
+        }
+
+        function renderTemplateEditor() {
+            const classId = document.getElementById('editorClassSelect').value;
+            const container = document.getElementById('templateEditor');
+            container.innerHTML = '';
+            
+            if (!classId) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-tertiary); padding: var(--space-2xl);">Please select a class from the dropdown above to edit its templates.</p>';
+                return;
+            }
+            
+            const classData = database.classes[classId];
+
+            if (!classData.strands || Object.keys(classData.strands).length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-tertiary); padding: var(--space-2xl);">No strands yet. Click "Add Strand" to get started.</p>';
+                return;
+            }
+
+            Object.keys(classData.strands).forEach(strandId => {
+                const strand = classData.strands[strandId];
+                const strandDiv = document.createElement('div');
+                strandDiv.className = 'template-group';
+                
+                let outcomesHTML = '';
+                Object.keys(strand.outcomes).forEach(outcomeId => {
+                    const outcome = strand.outcomes[outcomeId];
+                    outcomesHTML += `
+                        <div style="background: var(--surface-1); padding: var(--space-lg); border-radius: var(--radius-md); margin-bottom: var(--space-md); border: 2px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md);">
+                                <strong style="font-size: var(--font-size-lg); color: var(--text-primary);">${outcome.title}</strong>
+                                <button class="btn btn-danger btn-small" onclick="deleteOutcome('${classId}', '${strandId}', '${outcomeId}')">Delete</button>
+                            </div>
+                            <div style="margin-bottom: var(--space-md);">
+                                <label class="template-label">Level 2 (Approaching)</label>
+                                <textarea class="template-input" data-class="${classId}" data-strand="${strandId}" data-outcome="${outcomeId}" data-level="2">${outcome.templates['2']}</textarea>
+                            </div>
+                            <div style="margin-bottom: var(--space-md);">
+                                <label class="template-label">Level 3 (Meeting)</label>
+                                <textarea class="template-input" data-class="${classId}" data-strand="${strandId}" data-outcome="${outcomeId}" data-level="3">${outcome.templates['3']}</textarea>
+                            </div>
+                            <div>
+                                <label class="template-label">Level 3+ (Strong)</label>
+                                <textarea class="template-input" data-class="${classId}" data-strand="${strandId}" data-outcome="${outcomeId}" data-level="3plus">${outcome.templates['3plus']}</textarea>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                strandDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                        <h3 style="font-size: var(--font-size-2xl); color: var(--primary);">${strand.name}</h3>
+                        <div class="button-group">
+                            <button class="btn btn-primary btn-small" onclick="showAddOutcomeModal('${strandId}')">➕ Add Outcome</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteStrand('${classId}', '${strandId}')">Delete Strand</button>
+                        </div>
+                    </div>
+                    ${outcomesHTML}
+                `;
+                
+                container.appendChild(strandDiv);
+            });
+        }
+
+        function showAddStrandModal() {
+            const classId = document.getElementById('editorClassSelect').value;
+            
+            if (!classId) {
+                alert('Please select a class first.');
+                return;
+            }
+            
+            document.getElementById('addStrandModal').classList.add('show');
+            document.getElementById('addStrandModal').dataset.classId = classId;
+        }
+
+        function addNewStrand() {
+            const name = document.getElementById('newStrandName').value.trim();
+            const modal = document.getElementById('addStrandModal');
+            const classId = modal.dataset.classId;
+            
+            if (!name) {
+                alert('Please enter a strand name.');
+                return;
+            }
+            
+            const strandId = name.toLowerCase().replace(/\s+/g, '') + Date.now();
+            database.classes[classId].strands[strandId] = {
+                name: name,
+                outcomes: {}
+            };
+            
+            saveDatabase();
+            renderTemplateEditor();
+            renderStrands();
+            closeModal('addStrandModal');
+            
+            document.getElementById('newStrandName').value = '';
+        }
+
+        function deleteStrand(classId, strandId) {
+            if (confirm('Are you sure you want to delete this strand and all its outcomes?')) {
+                delete database.classes[classId].strands[strandId];
+                saveDatabase();
+                renderTemplateEditor();
+                renderStrands();
+            }
+        }
+
+        function showAddOutcomeModal(strandId) {
+            document.getElementById('outcomeStrandId').value = strandId;
+            document.getElementById('addOutcomeModal').classList.add('show');
+        }
+
+        function saveNewOutcome() {
+            const classId = document.getElementById('editorClassSelect').value;
+            const strandId = document.getElementById('outcomeStrandId').value;
+            const title = document.getElementById('newOutcomeTitle').value.trim();
+            const level2 = document.getElementById('newOutcomeLevel2').value.trim();
+            const level3 = document.getElementById('newOutcomeLevel3').value.trim();
+            const level3plus = document.getElementById('newOutcomeLevel3plus').value.trim();
+            
+            if (!title || !level2 || !level3 || !level3plus) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            const outcomeId = title.toLowerCase().replace(/\s+/g, '') + Date.now();
+            database.classes[classId].strands[strandId].outcomes[outcomeId] = {
+                title: title,
+                templates: {
+                    '2': level2,
+                    '3': level3,
+                    '3plus': level3plus
+                }
+            };
+            
+            saveDatabase();
+            renderTemplateEditor();
+            renderStrands();
+            closeModal('addOutcomeModal');
+            
+            document.getElementById('newOutcomeTitle').value = '';
+            document.getElementById('newOutcomeLevel2').value = '';
+            document.getElementById('newOutcomeLevel3').value = '';
+            document.getElementById('newOutcomeLevel3plus').value = '';
+        }
+
+        function deleteOutcome(classId, strandId, outcomeId) {
+            if (confirm('Are you sure you want to delete this outcome?')) {
+                delete database.classes[classId].strands[strandId].outcomes[outcomeId];
+                saveDatabase();
+                renderTemplateEditor();
+                renderStrands();
+            }
+        }
+
+        function saveAllTemplates() {
+            const classId = document.getElementById('editorClassSelect').value;
+            
+            document.querySelectorAll('textarea[data-class]').forEach(textarea => {
+                const cls = textarea.dataset.class;
+                const strand = textarea.dataset.strand;
+                const outcome = textarea.dataset.outcome;
+                const level = textarea.dataset.level;
+                
+                database.classes[cls].strands[strand].outcomes[outcome].templates[level] = textarea.value;
+            });
+
+            saveDatabase();
+            alert('All templates saved successfully!');
+            renderStrands();
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(database, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `comment-builder-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('Data exported successfully! Check your Downloads folder.');
+        }
+
+        function downloadBlankTemplate() {
+            const blankTemplate = {
+                classes: {
+                    exampleClass: {
+                        name: "Example Class Name",
+                        subject: "Example Subject",
+                        strands: {
+                            exampleStrand: {
+                                name: "Example Strand Name",
+                                outcomes: {
+                                    exampleOutcome: {
+                                        title: "Example Outcome Title",
+                                        templates: {
+                                            "2": "{Name} is developing [skill/concept]. {They} can [what they can do] but need support with [area for growth].",
+                                            "3": "{Name} demonstrates [skill/concept] and [specific evidence of meeting expectations].",
+                                            "3plus": "{Name} shows strong mastery of [skill/concept] and [specific evidence of exceeding expectations]."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                endingOptions: [
+                    "They have strong foundational skills and could excel with increased focus.",
+                    "They consistently engage with lessons and contribute to class discussions.",
+                    "Example ending comment 3.",
+                    "Example ending comment 4."
+                ],
+                engagementOptions: [
+                    "{They} actively participate in class discussions and share insightful ideas.",
+                    "{They} contribute thoughtfully to class discussions when prompted.",
+                    "{They} are beginning to share their ideas more confidently in class.",
+                    "{They} listen attentively and engage with partner discussions."
+                ],
+                currentClass: "exampleClass"
+            };
+            
+            const dataStr = JSON.stringify(blankTemplate, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'template-blank.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('template-blank.json downloaded! Give this to the AI along with your curriculum.');
+        }
+
+        function copyAIPrompt() {
+            const promptText = document.getElementById('aiPrompt').textContent;
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = promptText;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('Prompt copied to clipboard!\n\nNow:\n1. Go to ChatGPT or Claude AI\n2. Paste this prompt\n3. Upload template-blank.json\n4. Upload/paste your curriculum\n5. AI will generate your JSON!');
+            } catch (err) {
+                alert('Failed to copy. Please manually select and copy the prompt text.');
+            }
+            
+            document.body.removeChild(textarea);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!importedData.classes || typeof importedData.classes !== 'object') {
+                        throw new Error('Invalid data format: missing or invalid "classes" object');
+                    }
+                    
+                    const classCount = Object.keys(importedData.classes).length;
+                    const classNames = Object.values(importedData.classes).map(c => c.name).join(', ');
+                    
+                    if (!confirm(`Import ${classCount} class(es): ${classNames}?\n\nThis will add them to your existing classes.`)) {
+                        return;
+                    }
+                    
+                    Object.keys(importedData.classes).forEach(classId => {
+                        let newClassId = classId;
+                        let counter = 1;
+                        
+                        while (database.classes[newClassId]) {
+                            newClassId = classId + counter;
+                            counter++;
+                        }
+                        
+                        database.classes[newClassId] = importedData.classes[classId];
+                    });
+                    
+                    if (importedData.endingOptions) {
+                        importedData.endingOptions.forEach(ending => {
+                            if (!database.endingOptions.includes(ending)) {
+                                database.endingOptions.push(ending);
+                            }
+                        });
+                    }
+                    
+                    if (importedData.engagementOptions) {
+                        if (!database.engagementOptions) {
+                            database.engagementOptions = [];
+                        }
+                        importedData.engagementOptions.forEach(engagement => {
+                            if (!database.engagementOptions.includes(engagement)) {
+                                database.engagementOptions.push(engagement);
+                            }
+                        });
+                    }
+                    
+                    saveDatabase();
+                    
+                    renderClassSelector();
+                    renderClassesList();
+                    renderEditorClassSelect();
+                    renderTemplateEditor();
+                    renderStrands();
+                    renderEndingOptions();
+                    renderEngagementOptions();
+                    
+                    alert(`Successfully imported ${classCount} class(es)!`);
+                    
+                } catch (error) {
+                    alert('Error importing data: ' + error.message + '\n\nPlease ensure the file is a valid JSON file from this app.');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
+            
+            event.target.value = '';
+        }
+
+        function showImportInstructions() {
+            const instructions = `
+IMPORT / EXPORT INSTRUCTIONS
+
+📥 IMPORTING:
+1. Click "Import JSON File"
+2. Select a .json file from your computer
+3. Confirm the import
+4. Classes will be ADDED to your existing ones
+5. If a class with the same ID exists, it gets a unique ID
+
+📤 EXPORTING:
+1. Click "Export All Data"
+2. File will download to your Downloads folder
+3. Use this for:
+   - Backup your work
+   - Share with colleagues
+   - Transfer between computers
+
+📁 BLANK TEMPLATE:
+- Use "template-blank.json" as a starting point
+- Give it to colleagues to fill with their curriculum
+- Use an LLM (like ChatGPT/Claude) to generate templates
+
+💡 TIP FOR COLLEAGUES:
+1. Give them "template-blank.json"
+2. They provide their curriculum to an LLM
+3. LLM generates the JSON with all templates
+4. They import it into this app!
+
+⚠️ IMPORTANT:
+- Imports always ADD classes (never replace)
+- Delete unwanted classes from "Manage Classes" tab
+- Always export your data regularly for backup
+- Validate JSON format if you edit files manually
+            `.trim();
+            
+            alert(instructions);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            document.getElementById('outputComment').addEventListener('input', updateCharCounter);
+        });
+    </script>
+</body>
+</html>
