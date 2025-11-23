@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Card Comment Builder v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border: none;
+            background: none;
+            font-size: 1em;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .panel {
+            display: none;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .strand-section {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .strand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .strand-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .outcome-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .outcome-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+        }
+
+        .outcome-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .outcome-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .outcome-checkbox {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .outcome-title {
+            font-weight: 700;
+            font-size: 1.1em;
+            color: #333;
+            flex: 1;
+        }
+
+        .level-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .level-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .level-btn:hover {
+            border-color: #667eea;
+        }
+
+        .level-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .level-btn.level-2 {
+            color: #f59e0b;
+        }
+
+        .level-btn.level-2.active {
+            background: #f59e0b;
+            border-color: #f59e0b;
+            color: white;
+        }
+
+        .level-btn.level-3 {
+            color: #10b981;
+        }
+
+        .level-btn.level-3.active {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .level-btn.level-3plus {
+            color: #8b5cf6;
+        }
+
+        .level-btn.level-3plus.active {
+            background: #8b5cf6;
+            border-color: #8b5cf6;
+            color: white;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .output-area {
+            position: relative;
+        }
+
+        .char-counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            z-index: 10;
+        }
+
+        .char-counter.warning {
+            background: #f59e0b;
+        }
+
+        .char-counter.error {
+            background: #ef4444;
+        }
+
+        textarea#outputComment {
+            min-height: 200px;
+            padding-top: 50px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-info {
+            background: #e0f2fe;
+            border-left: 4px solid #0284c7;
+            color: #075985;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-left: 4px solid #10b981;
+            color: #065f46;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* Make right column sticky on desktop */
+        @media (min-width: 769px) {
+            .grid-2 > div:last-child {
+                position: sticky;
+                top: 20px;
+                max-height: calc(100vh - 40px);
+                overflow-y: auto;
+            }
+        }
+
+        .class-selector {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .class-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .class-item:hover {
+            background: #e9ecef;
+        }
+
+        .class-item.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .class-name {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            /* On mobile, reverse the order so student info/output appears first */
+            .grid-2 > div:first-child {
+                order: 2;
+            }
+            
+            .grid-2 > div:last-child {
+                order: 1;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .level-selector {
+                flex-direction: column;
+            }
+        }
+
+        .template-group {
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .template-label {
+            font-weight: 600;
+            color: #666;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        textarea.template-input {
+            min-height: 80px;
+            font-size: 0.95em;
+        }
+
+        .collapsible {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .collapsible::before {
+            content: '▼ ';
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .collapsible.collapsed::before {
+            transform: rotate(-90deg);
+        }
+
+        .collapsible-content {
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .collapsible-content.hidden {
+            max-height: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Report Card Comment Builder v2</h1>
+            <p>Multi-Class, Multi-Strand Professional Comment Generator</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="builder">Comment Builder</button>
+            <button class="tab" data-tab="manage">Manage Classes</button>
+            <button class="tab" data-tab="editor">Template Editor</button>
+        </div>
+
+        <div class="content">
+            <!-- BUILDER PANEL -->
+            <div id="builderPanel" class="panel active">
+                <div class="grid-2">
+                    <!-- LEFT COLUMN: Class & Outcomes -->
+                    <div>
+                        <div class="section">
+                            <h2 class="section-title">Select Class</h2>
+                            <div id="classSelector"></div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Select Outcomes</h2>
+                            <div id="strandsContainer"></div>
+                        </div>
+
+                        <div class="section">
+                            <h2 class="section-title">Optional Ending</h2>
+                            <div class="input-group">
+                                <label for="endingSelect">Add a closing comment (optional)</label>
+                                <select id="endingSelect">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="engagementSelect">Add a comment about class engagement (optional)</label>
+                                <select id="engagementSelect">
+                                    <option value="">None</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateCommentAndScroll()" style="width: 100%;">
+                            🚀 Generate Comment
+                        </button>
+                        <p style="text-align: center; color: #666; margin-top: 10px; font-size: 0.9em;">
+                            (Generates and scrolls to top to see result)
+                        </p>
+                    </div>
+
+                    <!-- RIGHT COLUMN: Student Info & Output -->
+                    <div>
+                        <div class="section">
+                            <h2 class="section-title">Student Information</h2>
+                            <div class="input-group">
+                                <label for="studentName">Student Name</label>
+                                <input type="text" id="studentName" placeholder="Enter student's first name">
+                            </div>
+                            <div class="input-group">
+                                <label for="pronouns">Pronouns</label>
+                                <select id="pronouns">
+                                    <option value="they">they/them</option>
+                                    <option value="she">she/her</option>
+                                    <option value="he">he/him</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generateComment()" style="width: 100%; margin-bottom: 20px;">
+                            🚀 Generate Comment
+                        </button>
+
+                        <div class="section">
+                            <h2 class="section-title">Generated Comment</h2>
+                            <div class="output-area">
+                                <span class="char-counter" id="charCounter">0/700</span>
+                                <textarea id="outputComment" placeholder="Your generated comment will appear here..."></textarea>
+                            </div>
+                            <div class="button-group">
+                                <button class="btn btn-success" onclick="copyToClipboard()">
+                                    📋 Copy to Clipboard
+                                </button>
+                                <button class="btn btn-secondary" onclick="clearAll()">
+                                    🗑️ Clear All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MANAGE CLASSES PANEL -->
+            <div id="managePanel" class="panel">
+                <div class="alert alert-info">
+                    <strong>Manage Classes</strong><br>
+                    Create and organize classes with their own strands and outcomes. Each class can have unique curriculum content.
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">Import / Export Data</h2>
+                    <div class="template-group">
+                        <p style="margin-bottom: 15px; color: #666;">
+                            Import a JSON file to load classes and templates, or export your current data for backup or sharing with colleagues.
+                        </p>
+                        <div class="button-group">
+                            <button class="btn btn-success" onclick="document.getElementById('importFile').click()">
+                                📥 Import JSON File
+                            </button>
+                            <button class="btn btn-primary" onclick="exportData()">
+                                📤 Export All Data
+                            </button>
+                            <button class="btn btn-secondary" onclick="showImportInstructions()">
+                                ℹ️ Instructions
+                            </button>
+                        </div>
+                        <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        Your Classes
+                        <button class="btn btn-primary btn-small" onclick="showAddClassModal()">
+                            ➕ Add New Class
+                        </button>
+                    </h2>
+                    <div id="classesList"></div>
+                </div>
+            </div>
+
+            <!-- EDITOR PANEL -->
+            <div id="editorPanel" class="panel">
+                <div class="alert alert-info">
+                    <strong>Template Editor</strong><br>
+                    Edit comment templates for the selected class. Changes are saved automatically.
+                </div>
+
+                <div class="section">
+                    <div class="input-group">
+                        <label for="editorClassSelect">Select Class to Edit</label>
+                        <select id="editorClassSelect" onchange="renderTemplateEditor()">
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        Manage Strands & Outcomes
+                        <button class="btn btn-primary btn-small" onclick="showAddStrandModal()">
+                            ➕ Add Strand
+                        </button>
+                    </h2>
+                    <div id="templateEditor"></div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="saveAllTemplates()">
+                        💾 Save All Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div id="addClassModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add New Class</h2>
+            <div class="input-group">
+                <label for="newClassName">Class Name</label>
+                <input type="text" id="newClassName" placeholder="e.g., Grade 6 Math">
+            </div>
+            <div class="input-group">
+                <label for="newClassSubject">Subject (optional)</label>
+                <input type="text" id="newClassSubject" placeholder="e.g., Mathematics">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addClassModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addNewClass()">Create Class</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Strand Modal -->
+    <div id="addStrandModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add New Strand</h2>
+            <div class="input-group">
+                <label for="newStrandName">Strand Name</label>
+                <input type="text" id="newStrandName" placeholder="e.g., Number Sense">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addStrandModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="addNewStrand()">Add Strand</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Outcome Modal -->
+    <div id="addOutcomeModal" class="modal">
+        <div class="modal-content">
+            <h2 class="modal-header">Add New Outcome</h2>
+            <input type="hidden" id="outcomeStrandId">
+            <div class="input-group">
+                <label for="newOutcomeTitle">Outcome Title</label>
+                <input type="text" id="newOutcomeTitle" placeholder="e.g., Place Value to the Millions">
+            </div>
+            <div class="input-group">
+                <label for="newOutcomeLevel2">Level 2 Template (Approaching)</label>
+                <textarea id="newOutcomeLevel2" class="template-input" placeholder="Use {Name}, {they}, {their}, etc."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="newOutcomeLevel3">Level 3 Template (Meeting)</label>
+                <textarea id="newOutcomeLevel3" class="template-input" placeholder="Use {Name}, {they}, {their}, etc."></textarea>
+            </div>
+            <div class="input-group">
+                <label for="newOutcomeLevel3plus">Level 3+ Template (Strong)</label>
+                <textarea id="newOutcomeLevel3plus" class="template-input" placeholder="Use {Name}, {they}, {their}, etc."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('addOutcomeModal')">Cancel</button>
+                <button class="btn btn-primary" onclick="saveNewOutcome()">Add Outcome</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced database structure with classes
+        const defaultDatabase = {
+            classes: {
+                grade6Math: {
+                    name: "Grade 6 Math",
+                    subject: "Mathematics",
+                    strands: {
+                        number: {
+                            name: "Number",
+                            outcomes: {
+                                placeValue: {
+                                    title: "Place Value to the Millions",
+                                    templates: {
+                                        "2": "{Name} is developing confidence with place value to the millions. {They} can identify most place values with support but need reminders to read large numbers accurately.",
+                                        "3": "{Name} demonstrates solid understanding of place value to the millions and reads, writes, and compares large numbers with good accuracy.",
+                                        "3plus": "{Name} shows strong mastery of place value to the millions and confidently reads, writes, and compares large numbers with consistent accuracy."
+                                    }
+                                },
+                                decimals: {
+                                    title: "Adding & Subtracting Decimals to Thousandths",
+                                    templates: {
+                                        "2": "{Name} is working on adding and subtracting decimals accurately. {They} understand lining up the place values but still need support with consistency.",
+                                        "3": "{Name} adds and subtracts decimals to the thousandths with solid accuracy and lines up place values correctly in most situations.",
+                                        "3plus": "{Name} consistently adds and subtracts decimals to the thousandths with accuracy and clear reasoning."
+                                    }
+                                },
+                                standardForm: {
+                                    title: "Standard / Expanded / Word Form",
+                                    templates: {
+                                        "2": "{Name} is learning to convert numbers between standard, expanded, and word form, but still needs reminders to include all place values.",
+                                        "3": "{Name} converts numbers accurately between standard, expanded, and word form and demonstrates a good understanding of how place value is represented.",
+                                        "3plus": "{Name} confidently converts numbers between all forms with precision and uses place value language effectively."
+                                    }
+                                },
+                                primeFactorCombo: {
+                                    title: "Prime/Composite + Factor Trees",
+                                    templates: {
+                                        "2": "{Name} is developing understanding of prime and composite numbers and needs support to build accurate factor trees.",
+                                        "3": "{Name} identifies prime and composite numbers accurately and builds factor trees with growing independence.",
+                                        "3plus": "{Name} shows strong understanding of prime/composite numbers and creates clear, accurate factor trees consistently."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            endingOptions: [
+                "They have strong foundational skills and could excel with increased focus.",
+                "They consistently engage with lessons and contribute to class discussions.",
+                "They benefit from checking their work and taking time with multi-step tasks.",
+                "They are a curious learner who approaches math with confidence."
+            ],
+            engagementOptions: [
+                "{They} actively participate in class discussions and share insightful ideas.",
+                "{They} contribute thoughtfully to class discussions when prompted.",
+                "{They} are beginning to share their ideas more confidently in class.",
+                "{They} listen attentively and engage with partner discussions.",
+                "{They} would benefit from participating more frequently in class discussions.",
+                "{They} work well with peers during group activities and discussions.",
+                "{They} consistently ask thoughtful questions that deepen understanding.",
+                "{They} respectfully build on the ideas of classmates during discussions."
+            ],
+            currentClass: "grade6Math"
+        };
+
+        let database = JSON.parse(localStorage.getItem('commentDatabaseV2')) || JSON.parse(JSON.stringify(defaultDatabase));
+
+        function saveDatabase() {
+            localStorage.setItem('commentDatabaseV2', JSON.stringify(database));
+        }
+
+        function init() {
+            renderClassSelector();
+            renderClassesList();
+            renderEditorClassSelect();
+            renderTemplateEditor(); // Show initial state (placeholder message)
+            renderStrands();
+            renderEndingOptions();
+            renderEngagementOptions();
+            setupTabs();
+            updateCharCounter();
+        }
+
+        function setupTabs() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.dataset.tab;
+                    
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+                    document.getElementById(tabName + 'Panel').classList.add('active');
+                });
+            });
+        }
+
+        function getCurrentClass() {
+            return database.classes[database.currentClass];
+        }
+
+        function renderClassSelector() {
+            const container = document.getElementById('classSelector');
+            container.innerHTML = '';
+
+            Object.keys(database.classes).forEach(classId => {
+                const classData = database.classes[classId];
+                const item = document.createElement('div');
+                item.className = 'class-item' + (classId === database.currentClass ? ' active' : '');
+                item.onclick = () => selectClass(classId);
+                item.innerHTML = `
+                    <div>
+                        <div class="class-name">${classData.name}</div>
+                        ${classData.subject ? `<small>${classData.subject}</small>` : ''}
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function selectClass(classId) {
+            database.currentClass = classId;
+            saveDatabase();
+            renderClassSelector();
+            renderStrands();
+        }
+
+        function renderStrands() {
+            const container = document.getElementById('strandsContainer');
+            container.innerHTML = '';
+            
+            const currentClass = getCurrentClass();
+            if (!currentClass || !currentClass.strands) return;
+
+            Object.keys(currentClass.strands).forEach(strandId => {
+                const strand = currentClass.strands[strandId];
+                const strandDiv = document.createElement('div');
+                strandDiv.className = 'strand-section';
+                
+                let outcomesHTML = '';
+                Object.keys(strand.outcomes).forEach(outcomeId => {
+                    const outcome = strand.outcomes[outcomeId];
+                    outcomesHTML += `
+                        <div class="outcome-card" id="outcome-${strandId}-${outcomeId}">
+                            <div class="outcome-header">
+                                <input type="checkbox" class="outcome-checkbox" id="check-${strandId}-${outcomeId}" 
+                                       onchange="toggleOutcome('${strandId}', '${outcomeId}')">
+                                <div class="outcome-title">${outcome.title}</div>
+                            </div>
+                            <div class="level-selector" id="levels-${strandId}-${outcomeId}" style="display: none;">
+                                <button class="level-btn level-2" onclick="selectLevel('${strandId}', '${outcomeId}', '2')">
+                                    Level 2<br><small>Approaching</small>
+                                </button>
+                                <button class="level-btn level-3" onclick="selectLevel('${strandId}', '${outcomeId}', '3')">
+                                    Level 3<br><small>Meeting</small>
+                                </button>
+                                <button class="level-btn level-3plus" onclick="selectLevel('${strandId}', '${outcomeId}', '3plus')">
+                                    Level 3+<br><small>Strong</small>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                strandDiv.innerHTML = `
+                    <div class="strand-header">
+                        <div class="strand-title collapsible" onclick="toggleCollapse(this)">${strand.name}</div>
+                    </div>
+                    <div class="collapsible-content">
+                        ${outcomesHTML}
+                    </div>
+                `;
+                
+                container.appendChild(strandDiv);
+            });
+        }
+
+        function toggleCollapse(element) {
+            element.classList.toggle('collapsed');
+            const content = element.parentElement.nextElementSibling;
+            content.classList.toggle('hidden');
+        }
+
+        function renderEndingOptions() {
+            const select = document.getElementById('endingSelect');
+            select.innerHTML = '<option value="">None</option>';
+            
+            database.endingOptions.forEach((option, index) => {
+                const opt = document.createElement('option');
+                opt.value = index;
+                opt.textContent = option.substring(0, 60) + '...';
+                select.appendChild(opt);
+            });
+        }
+
+        function renderEngagementOptions() {
+            const select = document.getElementById('engagementSelect');
+            select.innerHTML = '<option value="">None</option>';
+            
+            if (!database.engagementOptions) {
+                database.engagementOptions = [];
+            }
+            
+            database.engagementOptions.forEach((option, index) => {
+                const opt = document.createElement('option');
+                opt.value = index;
+                // Show preview without pronoun placeholders
+                const preview = option.replace(/\{They\}/g, 'They').replace(/\{they\}/g, 'they');
+                opt.textContent = preview.substring(0, 60) + '...';
+                select.appendChild(opt);
+            });
+        }
+
+        function toggleOutcome(strandId, outcomeId) {
+            const checkbox = document.getElementById(`check-${strandId}-${outcomeId}`);
+            const levelsDiv = document.getElementById(`levels-${strandId}-${outcomeId}`);
+            const card = document.getElementById(`outcome-${strandId}-${outcomeId}`);
+            
+            if (checkbox.checked) {
+                levelsDiv.style.display = 'flex';
+                card.classList.add('selected');
+            } else {
+                levelsDiv.style.display = 'none';
+                card.classList.remove('selected');
+                levelsDiv.querySelectorAll('.level-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+        }
+
+        function selectLevel(strandId, outcomeId, level) {
+            const levelsDiv = document.getElementById(`levels-${strandId}-${outcomeId}`);
+            levelsDiv.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Find the button that was clicked - handle clicks on button or its children
+            const clickedButton = event.target.closest('.level-btn');
+            if (clickedButton) {
+                clickedButton.classList.add('active');
+            }
+        }
+
+        function getPronouns(baseForm) {
+            const pronounMap = {
+                'they': { they: 'they', them: 'them', their: 'their', They: 'They', Them: 'Them', Their: 'Their' },
+                'she': { they: 'she', them: 'her', their: 'her', They: 'She', Them: 'Her', Their: 'Her' },
+                'he': { they: 'he', them: 'him', their: 'his', They: 'He', Them: 'Him', Their: 'His' }
+            };
+            return pronounMap[baseForm];
+        }
+
+        function generateComment() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const pronounBase = document.getElementById('pronouns').value;
+            const endingIndex = document.getElementById('endingSelect').value;
+            
+            if (!studentName) {
+                alert('Please enter a student name.');
+                return;
+            }
+
+            const pronouns = getPronouns(pronounBase);
+            let commentParts = [];
+            const currentClass = getCurrentClass();
+            let missingLevels = [];
+
+            Object.keys(currentClass.strands).forEach(strandId => {
+                const strand = currentClass.strands[strandId];
+                Object.keys(strand.outcomes).forEach(outcomeId => {
+                    const checkbox = document.getElementById(`check-${strandId}-${outcomeId}`);
+                    if (checkbox && checkbox.checked) {
+                        const levelsDiv = document.getElementById(`levels-${strandId}-${outcomeId}`);
+                        const activeBtn = levelsDiv.querySelector('.level-btn.active');
+                        
+                        if (activeBtn) {
+                            // Extract the level from the onclick attribute
+                            const onclickStr = activeBtn.getAttribute('onclick');
+                            const levelMatch = onclickStr.match(/'([^']+)',\s*'([^']+)',\s*'([^']+)'/);
+                            
+                            if (levelMatch && levelMatch[3]) {
+                                const level = levelMatch[3]; // The third parameter is the level
+                                let template = strand.outcomes[outcomeId].templates[level];
+                            
+                                // Check if template exists
+                                if (template) {
+                                    template = template.replace(/\{Name\}/g, studentName);
+                                    template = template.replace(/\{They\}/g, pronouns.They);
+                                    template = template.replace(/\{they\}/g, pronouns.they);
+                                    template = template.replace(/\{Them\}/g, pronouns.Them);
+                                    template = template.replace(/\{them\}/g, pronouns.them);
+                                    template = template.replace(/\{Their\}/g, pronouns.Their);
+                                    template = template.replace(/\{their\}/g, pronouns.their);
+                                    
+                                    commentParts.push(template);
+                                }
+                            }
+                        } else {
+                            // Checkbox is checked but no level selected
+                            missingLevels.push(strand.outcomes[outcomeId].title);
+                        }
+                    }
+                });
+            });
+
+            // Alert if outcomes are checked without level selections
+            if (missingLevels.length > 0) {
+                alert('Please select an achievement level for:\n\n' + missingLevels.join('\n'));
+                return;
+            }
+
+            if (commentParts.length === 0) {
+                alert('Please select at least one outcome and achievement level.');
+                return;
+            }
+
+            let fullComment = commentParts.join(' ');
+
+            // Add engagement comment if selected
+            const engagementIndex = document.getElementById('engagementSelect').value;
+            if (engagementIndex !== '') {
+                let engagement = database.engagementOptions[parseInt(engagementIndex)];
+                // Replace pronouns in engagement comment
+                engagement = engagement.replace(/\{They\}/g, pronouns.They);
+                engagement = engagement.replace(/\{they\}/g, pronouns.they);
+                engagement = engagement.replace(/\{Them\}/g, pronouns.Them);
+                engagement = engagement.replace(/\{them\}/g, pronouns.them);
+                engagement = engagement.replace(/\{Their\}/g, pronouns.Their);
+                engagement = engagement.replace(/\{their\}/g, pronouns.their);
+                
+                const withEngagement = fullComment + ' ' + engagement;
+                if (withEngagement.length <= 700) {
+                    fullComment = withEngagement;
+                }
+            }
+
+            // Add ending comment if selected
+            if (endingIndex !== '') {
+                const ending = database.endingOptions[parseInt(endingIndex)];
+                const withEnding = fullComment + ' ' + ending;
+                if (withEnding.length <= 700) {
+                    fullComment = withEnding;
+                }
+            }
+
+            document.getElementById('outputComment').value = fullComment;
+            updateCharCounter();
+        }
+
+        // Generate comment and scroll to top to see result
+        function generateCommentAndScroll() {
+            generateComment();
+            // Smooth scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateCharCounter() {
+            const textarea = document.getElementById('outputComment');
+            const counter = document.getElementById('charCounter');
+            const count = textarea.value.length;
+            
+            counter.textContent = `${count}/700`;
+            
+            counter.classList.remove('warning', 'error');
+            if (count > 700) {
+                counter.classList.add('error');
+            } else if (count > 650) {
+                counter.classList.add('warning');
+            }
+        }
+
+        function copyToClipboard() {
+            const textarea = document.getElementById('outputComment');
+            if (!textarea.value) {
+                alert('No comment to copy!');
+                return;
+            }
+            
+            textarea.select();
+            document.execCommand('copy');
+            alert('Comment copied to clipboard!');
+        }
+
+        function clearAll() {
+            document.getElementById('studentName').value = '';
+            document.getElementById('pronouns').value = 'they';
+            document.getElementById('endingSelect').value = '';
+            document.getElementById('engagementSelect').value = '';
+            document.getElementById('outputComment').value = '';
+            
+            document.querySelectorAll('.outcome-checkbox').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            document.querySelectorAll('.outcome-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.level-selector').forEach(div => {
+                div.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            updateCharCounter();
+        }
+
+        // Class Management Functions
+        function renderClassesList() {
+            const container = document.getElementById('classesList');
+            container.innerHTML = '';
+
+            Object.keys(database.classes).forEach(classId => {
+                const classData = database.classes[classId];
+                const strandCount = Object.keys(classData.strands || {}).length;
+                
+                const classDiv = document.createElement('div');
+                classDiv.className = 'template-group';
+                classDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <div>
+                            <div style="font-size: 1.3em; font-weight: 700;">${classData.name}</div>
+                            <div style="color: #666;">${classData.subject || 'No subject'} • ${strandCount} strand(s)</div>
+                        </div>
+                        <button class="btn btn-danger btn-small" onclick="deleteClass('${classId}')">Delete</button>
+                    </div>
+                `;
+                container.appendChild(classDiv);
+            });
+        }
+
+        function showAddClassModal() {
+            document.getElementById('addClassModal').classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function addNewClass() {
+            const name = document.getElementById('newClassName').value.trim();
+            const subject = document.getElementById('newClassSubject').value.trim();
+            
+            if (!name) {
+                alert('Please enter a class name.');
+                return;
+            }
+            
+            const classId = name.toLowerCase().replace(/\s+/g, '') + Date.now();
+            database.classes[classId] = {
+                name: name,
+                subject: subject,
+                strands: {}
+            };
+            
+            saveDatabase();
+            renderClassesList();
+            renderClassSelector();
+            renderEditorClassSelect();
+            closeModal('addClassModal');
+            
+            document.getElementById('newClassName').value = '';
+            document.getElementById('newClassSubject').value = '';
+        }
+
+        function deleteClass(classId) {
+            if (Object.keys(database.classes).length === 1) {
+                alert('Cannot delete the last class.');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to delete this class? This cannot be undone.')) {
+                delete database.classes[classId];
+                if (database.currentClass === classId) {
+                    database.currentClass = Object.keys(database.classes)[0];
+                }
+                saveDatabase();
+                renderClassesList();
+                renderClassSelector();
+                renderEditorClassSelect();
+                renderStrands();
+            }
+        }
+
+        // Template Editor Functions
+        function renderEditorClassSelect() {
+            const select = document.getElementById('editorClassSelect');
+            select.innerHTML = '';
+            
+            // Add placeholder option
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '-- Select a class to edit --';
+            placeholder.disabled = true;
+            placeholder.selected = true;
+            select.appendChild(placeholder);
+            
+            Object.keys(database.classes).forEach(classId => {
+                const option = document.createElement('option');
+                option.value = classId;
+                option.textContent = database.classes[classId].name;
+                select.appendChild(option);
+            });
+        }
+
+        function renderTemplateEditor() {
+            const classId = document.getElementById('editorClassSelect').value;
+            const container = document.getElementById('templateEditor');
+            container.innerHTML = '';
+            
+            // Show message if no class selected
+            if (!classId) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">Please select a class from the dropdown above to edit its templates.</p>';
+                return;
+            }
+            
+            const classData = database.classes[classId];
+
+            if (!classData.strands || Object.keys(classData.strands).length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666; padding: 40px;">No strands yet. Click "Add Strand" to get started.</p>';
+                return;
+            }
+
+            Object.keys(classData.strands).forEach(strandId => {
+                const strand = classData.strands[strandId];
+                const strandDiv = document.createElement('div');
+                strandDiv.className = 'template-group';
+                
+                let outcomesHTML = '';
+                Object.keys(strand.outcomes).forEach(outcomeId => {
+                    const outcome = strand.outcomes[outcomeId];
+                    outcomesHTML += `
+                        <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <strong style="font-size: 1.1em;">${outcome.title}</strong>
+                                <button class="btn btn-danger btn-small" onclick="deleteOutcome('${classId}', '${strandId}', '${outcomeId}')">Delete</button>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="template-label">Level 2 (Approaching)</label>
+                                <textarea class="template-input" data-class="${classId}" data-strand="${strandId}" data-outcome="${outcomeId}" data-level="2">${outcome.templates['2']}</textarea>
+                            </div>
+                            <div style="margin-bottom: 10px;">
+                                <label class="template-label">Level 3 (Meeting)</label>
+                                <textarea class="template-input" data-class="${classId}" data-strand="${strandId}" data-outcome="${outcomeId}" data-level="3">${outcome.templates['3']}</textarea>
+                            </div>
+                            <div>
+                                <label class="template-label">Level 3+ (Strong)</label>
+                                <textarea class="template-input" data-class="${classId}" data-strand="${strandId}" data-outcome="${outcomeId}" data-level="3plus">${outcome.templates['3plus']}</textarea>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                strandDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h3 style="font-size: 1.4em; color: #667eea;">${strand.name}</h3>
+                        <div class="button-group">
+                            <button class="btn btn-primary btn-small" onclick="showAddOutcomeModal('${strandId}')">➕ Add Outcome</button>
+                            <button class="btn btn-danger btn-small" onclick="deleteStrand('${classId}', '${strandId}')">Delete Strand</button>
+                        </div>
+                    </div>
+                    ${outcomesHTML}
+                `;
+                
+                container.appendChild(strandDiv);
+            });
+        }
+
+        function showAddStrandModal() {
+            const classId = document.getElementById('editorClassSelect').value;
+            
+            if (!classId) {
+                alert('Please select a class first.');
+                return;
+            }
+            
+            document.getElementById('addStrandModal').classList.add('show');
+            document.getElementById('addStrandModal').dataset.classId = classId;
+        }
+
+        function addNewStrand() {
+            const name = document.getElementById('newStrandName').value.trim();
+            const modal = document.getElementById('addStrandModal');
+            const classId = modal.dataset.classId;
+            
+            if (!name) {
+                alert('Please enter a strand name.');
+                return;
+            }
+            
+            const strandId = name.toLowerCase().replace(/\s+/g, '') + Date.now();
+            database.classes[classId].strands[strandId] = {
+                name: name,
+                outcomes: {}
+            };
+            
+            saveDatabase();
+            renderTemplateEditor();
+            renderStrands();
+            closeModal('addStrandModal');
+            
+            document.getElementById('newStrandName').value = '';
+        }
+
+        function deleteStrand(classId, strandId) {
+            if (confirm('Are you sure you want to delete this strand and all its outcomes?')) {
+                delete database.classes[classId].strands[strandId];
+                saveDatabase();
+                renderTemplateEditor();
+                renderStrands();
+            }
+        }
+
+        function showAddOutcomeModal(strandId) {
+            document.getElementById('outcomeStrandId').value = strandId;
+            document.getElementById('addOutcomeModal').classList.add('show');
+        }
+
+        function saveNewOutcome() {
+            const classId = document.getElementById('editorClassSelect').value;
+            const strandId = document.getElementById('outcomeStrandId').value;
+            const title = document.getElementById('newOutcomeTitle').value.trim();
+            const level2 = document.getElementById('newOutcomeLevel2').value.trim();
+            const level3 = document.getElementById('newOutcomeLevel3').value.trim();
+            const level3plus = document.getElementById('newOutcomeLevel3plus').value.trim();
+            
+            if (!title || !level2 || !level3 || !level3plus) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            const outcomeId = title.toLowerCase().replace(/\s+/g, '') + Date.now();
+            database.classes[classId].strands[strandId].outcomes[outcomeId] = {
+                title: title,
+                templates: {
+                    '2': level2,
+                    '3': level3,
+                    '3plus': level3plus
+                }
+            };
+            
+            saveDatabase();
+            renderTemplateEditor();
+            renderStrands();
+            closeModal('addOutcomeModal');
+            
+            document.getElementById('newOutcomeTitle').value = '';
+            document.getElementById('newOutcomeLevel2').value = '';
+            document.getElementById('newOutcomeLevel3').value = '';
+            document.getElementById('newOutcomeLevel3plus').value = '';
+        }
+
+        function deleteOutcome(classId, strandId, outcomeId) {
+            if (confirm('Are you sure you want to delete this outcome?')) {
+                delete database.classes[classId].strands[strandId].outcomes[outcomeId];
+                saveDatabase();
+                renderTemplateEditor();
+                renderStrands();
+            }
+        }
+
+        function saveAllTemplates() {
+            const classId = document.getElementById('editorClassSelect').value;
+            
+            document.querySelectorAll('textarea[data-class]').forEach(textarea => {
+                const cls = textarea.dataset.class;
+                const strand = textarea.dataset.strand;
+                const outcome = textarea.dataset.outcome;
+                const level = textarea.dataset.level;
+                
+                database.classes[cls].strands[strand].outcomes[outcome].templates[level] = textarea.value;
+            });
+
+            saveDatabase();
+            alert('All templates saved successfully!');
+            renderStrands();
+        }
+
+        // Import/Export Functions
+        function exportData() {
+            const dataStr = JSON.stringify(database, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `comment-builder-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('Data exported successfully! Check your Downloads folder.');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Validate the data structure
+                    if (!importedData.classes || typeof importedData.classes !== 'object') {
+                        throw new Error('Invalid data format: missing or invalid "classes" object');
+                    }
+                    
+                    const classCount = Object.keys(importedData.classes).length;
+                    const classNames = Object.values(importedData.classes).map(c => c.name).join(', ');
+                    
+                    if (!confirm(`Import ${classCount} class(es): ${classNames}?\n\nThis will add them to your existing classes.`)) {
+                        return;
+                    }
+                    
+                    // Always merge - add new classes to existing ones
+                    Object.keys(importedData.classes).forEach(classId => {
+                        let newClassId = classId;
+                        let counter = 1;
+                        
+                        // If class ID already exists, create a unique one
+                        while (database.classes[newClassId]) {
+                            newClassId = classId + counter;
+                            counter++;
+                        }
+                        
+                        database.classes[newClassId] = importedData.classes[classId];
+                    });
+                    
+                    // Merge ending options
+                    if (importedData.endingOptions) {
+                        importedData.endingOptions.forEach(ending => {
+                            if (!database.endingOptions.includes(ending)) {
+                                database.endingOptions.push(ending);
+                            }
+                        });
+                    }
+                    
+                    // Merge engagement options
+                    if (importedData.engagementOptions) {
+                        if (!database.engagementOptions) {
+                            database.engagementOptions = [];
+                        }
+                        importedData.engagementOptions.forEach(engagement => {
+                            if (!database.engagementOptions.includes(engagement)) {
+                                database.engagementOptions.push(engagement);
+                            }
+                        });
+                    }
+                    
+                    saveDatabase();
+                    
+                    // Refresh all views
+                    renderClassSelector();
+                    renderClassesList();
+                    renderEditorClassSelect();
+                    renderTemplateEditor();
+                    renderStrands();
+                    renderEndingOptions();
+                    renderEngagementOptions();
+                    
+                    alert(`Successfully imported ${classCount} class(es)!`);
+                    
+                } catch (error) {
+                    alert('Error importing data: ' + error.message + '\n\nPlease ensure the file is a valid JSON file from this app.');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
+            
+            // Reset file input
+            event.target.value = '';
+        }
+
+        function showImportInstructions() {
+            const instructions = `
+IMPORT / EXPORT INSTRUCTIONS
+
+📥 IMPORTING:
+1. Click "Import JSON File"
+2. Select a .json file from your computer
+3. Confirm the import
+4. Classes will be ADDED to your existing ones
+5. If a class with the same ID exists, it gets a unique ID
+
+📤 EXPORTING:
+1. Click "Export All Data"
+2. File will download to your Downloads folder
+3. Use this for:
+   - Backup your work
+   - Share with colleagues
+   - Transfer between computers
+
+📁 BLANK TEMPLATE:
+- Use "template-blank.json" as a starting point
+- Give it to colleagues to fill with their curriculum
+- Use an LLM (like ChatGPT/Claude) to generate templates
+
+💡 TIP FOR COLLEAGUES:
+1. Give them "template-blank.json"
+2. They provide their curriculum to an LLM
+3. LLM generates the JSON with all templates
+4. They import it into this app!
+
+⚠️ IMPORTANT:
+- Imports always ADD classes (never replace)
+- Delete unwanted classes from "Manage Classes" tab
+- Always export your data regularly for backup
+- Validate JSON format if you edit files manually
+            `.trim();
+            
+            alert(instructions);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            init();
+            document.getElementById('outputComment').addEventListener('input', updateCharCounter);
+        });
+    </script>
+</body>
+</html>

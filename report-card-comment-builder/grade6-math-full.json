@@ -1,0 +1,190 @@
+{
+  "classes": {
+    "grade6Math": {
+      "name": "Grade 6 Mathematics",
+      "subject": "Mathematics - New Brunswick Curriculum",
+      "strands": {
+        "numberSense": {
+          "name": "Number - Number Sense",
+          "outcomes": {
+            "largeNumbers": {
+              "title": "Large Numbers and Decimals",
+              "templates": {
+                "2": "{Name} is developing understanding of large numbers and decimals. {They} can work with these numbers with support but need reminders about place value relationships.",
+                "3": "{Name} demonstrates solid understanding of large numbers and decimals and can explain their place value with good accuracy.",
+                "3plus": "{Name} shows strong mastery of large numbers and decimals, confidently explaining place value patterns for any magnitude."
+              }
+            },
+            "primeComposite": {
+              "title": "Prime and Composite Numbers",
+              "templates": {
+                "2": "{Name} is learning about prime and composite numbers. {They} can identify some examples but need support to sort and classify numbers consistently.",
+                "3": "{Name} explains properties of prime and composite numbers accurately and can sort sets with good independence.",
+                "3plus": "{Name} demonstrates strong understanding of prime and composite numbers, including explaining why zero and one are neither prime nor composite."
+              }
+            },
+            "multiplesFactors": {
+              "title": "Multiples and Factors",
+              "templates": {
+                "2": "{Name} is developing strategies to find multiples and factors. {They} can use repeated division and arrays with support.",
+                "3": "{Name} identifies multiples and factors of whole numbers and applies arrays, repeated division, and factor trees with growing independence.",
+                "3plus": "{Name} confidently explains strategies to find multiples and factors and applies them effectively to solve problems."
+              }
+            },
+            "fractionDecimal": {
+              "title": "Fraction and Decimal Equivalents",
+              "templates": {
+                "2": "{Name} is working on converting fractions to decimal equivalents. {They} can identify some patterns but need support with predictions.",
+                "3": "{Name} justifies examples of fractions to their decimal equivalents and sorts sets representing repeating and terminating decimals with good accuracy.",
+                "3plus": "{Name} predicts decimal representations of fractions using patterns and demonstrates strong understanding of fraction-decimal relationships."
+              }
+            },
+            "percentRatioRate": {
+              "title": "Percentage, Ratio, and Rate",
+              "templates": {
+                "2": "{Name} is developing understanding of percentages, ratios, and rates. {They} can represent these concepts with support but need reminders about the relationships.",
+                "3": "{Name} explains percentage indicators within the 0%-100% range and represents ratios and rates accurately in word and symbolic form.",
+                "3plus": "{Name} confidently expresses ratios as percentages and vice-versa, and solves rate, ratio, and percent problems with clear reasoning."
+              }
+            }
+          }
+        },
+        "operations": {
+          "name": "Number - Operations",
+          "outcomes": {
+            "decimalOperations": {
+              "title": "Decimal Operations (Add, Subtract, Multiply, Divide)",
+              "templates": {
+                "2": "{Name} is working on decimal operations. {They} can add and subtract decimals with support but need reminders to line up place values consistently.",
+                "3": "{Name} adds, subtracts, multiplies, and divides decimals to hundredths with good accuracy and estimates reasonably.",
+                "3plus": "{Name} confidently performs all decimal operations and justifies the reasonableness of solutions using place value principles."
+              }
+            },
+            "fractionOperations": {
+              "title": "Fraction and Mixed Number Operations",
+              "templates": {
+                "2": "{Name} is developing skills with fraction operations. {They} can add and subtract fractions with common denominators but need support with mixed numbers.",
+                "3": "{Name} adds, subtracts, multiplies, and divides benchmark fractions and mixed numbers with growing independence and good accuracy.",
+                "3plus": "{Name} demonstrates strong understanding of fraction operations, simplifies fractions effectively, and justifies the reasonableness of solutions."
+              }
+            },
+            "orderOperations": {
+              "title": "Order of Operations",
+              "templates": {
+                "2": "{Name} is learning to apply the order of operations. {They} can solve problems with support but need reminders about the sequence.",
+                "3": "{Name} applies the order of operations to solve multi-step problems with whole numbers accurately.",
+                "3plus": "{Name} confidently applies the order of operations with and without technology and explains their reasoning clearly."
+              }
+            }
+          }
+        },
+        "dataAnalysis": {
+          "name": "Statistics and Probability - Data Analysis",
+          "outcomes": {
+            "collectRepresent": {
+              "title": "Collect and Represent Data",
+              "templates": {
+                "2": "{Name} is learning to collect and represent data. {They} can create questions and record results but need support selecting appropriate graph types.",
+                "3": "{Name} designs questionnaires, collects data, and justifies appropriate types of graphs for displaying collected data.",
+                "3plus": "{Name} confidently collects and represents data, interprets graphs effectively, and draws well-reasoned conclusions."
+              }
+            },
+            "tablesGraphs": {
+              "title": "Tables of Values and Linear Graphs",
+              "templates": {
+                "2": "{Name} is working on creating tables and graphs. {They} can plot data with support but need reminders about patterns and relationships.",
+                "3": "{Name} creates and labels graphs from tables of values, calculates missing values, and describes patterns within columns accurately.",
+                "3plus": "{Name} confidently creates tables of values given linear relationships and explains which data sets can be represented by line graphs."
+              }
+            },
+            "cartesianPlane": {
+              "title": "Cartesian Plane and Transformations",
+              "templates": {
+                "2": "{Name} is learning about the Cartesian Plane. {They} can plot points in the first quadrant with support but need reminders about ordered pairs.",
+                "3": "{Name} labels axes, identifies the origin, plots points using ordered pairs, and describes transformations of 2D shapes with good accuracy.",
+                "3plus": "{Name} confidently works with the Cartesian Plane, creates designs using 2D shapes, and describes rotations and reflections clearly."
+              }
+            }
+          }
+        },
+        "probability": {
+          "name": "Statistics and Probability - Chance and Uncertainty",
+          "outcomes": {
+            "probabilityOutcomes": {
+              "title": "Probability of Outcomes",
+              "templates": {
+                "2": "{Name} is developing understanding of probability. {They} can determine simple probabilities with support but need help comparing theoretical and experimental results.",
+                "3": "{Name} determines theoretical probabilities, predicts experimental outcomes, and represents probabilities as ratios, fractions, and percentages.",
+                "3plus": "{Name} confidently conducts probability experiments, compares experimental and theoretical probabilities, and explains differences clearly."
+              }
+            }
+          }
+        },
+        "algebra": {
+          "name": "Patterns and Relations - Algebra",
+          "outcomes": {
+            "equations": {
+              "title": "Equations Using Letter Variables",
+              "templates": {
+                "2": "{Name} is learning to develop equations with variables. {They} can represent simple equations pictorially but need support with preservation of equality.",
+                "3": "{Name} develops equations using letter variables and the commutative property, and verifies the preservation of equality.",
+                "3plus": "{Name} confidently represents equivalent forms of equations and demonstrates strong understanding of the preservation of equality for all operations."
+              }
+            }
+          }
+        },
+        "measurement": {
+          "name": "Shape and Space - Measurement",
+          "outcomes": {
+            "perimeterArea": {
+              "title": "Perimeter and Area",
+              "templates": {
+                "2": "{Name} is working on perimeter and area concepts. {They} can represent these measurements with support but need reminders about formulas.",
+                "3": "{Name} represents perimeter of polygons and area of rectangles, triangles, and parallelograms, and explains relationships between these measurements.",
+                "3plus": "{Name} confidently calculates perimeter and area, explains relationships clearly, and applies these concepts to solve problems."
+              }
+            },
+            "volume": {
+              "title": "Volume of Right Rectangular Prisms",
+              "templates": {
+                "2": "{Name} is developing understanding of volume. {They} can represent volume pictorially but need support understanding the relationship with area of the base.",
+                "3": "{Name} represents volume of right rectangular prisms and explains the relationship between base area and volume.",
+                "3plus": "{Name} confidently works with volume, demonstrates that orientation doesn't affect volume, and explains these concepts clearly."
+              }
+            },
+            "angles": {
+              "title": "Describe and Measure Angles",
+              "templates": {
+                "2": "{Name} is learning about angles. {They} can estimate and classify angles with support but need practice using a protractor consistently.",
+                "3": "{Name} measures, creates, and labels angles using a protractor, classifies angles according to their measure, and understands angles as measures of rotation.",
+                "3plus": "{Name} confidently works with angles in various orientations and demonstrates understanding that the sum of interior angles is the same for all triangles and all quadrilaterals."
+              }
+            }
+          }
+        },
+        "shapesObjects": {
+          "name": "Shape and Space - 2-D Shapes and 3-D Objects",
+          "outcomes": {
+            "3dObjects": {
+              "title": "Describe and Construct 3D Objects",
+              "templates": {
+                "2": "{Name} is learning about 3D objects. {They} can identify basic properties but need support describing parallel, perpendicular, and intersecting faces and edges.",
+                "3": "{Name} describes faces and edges using geometric language, sorts 3D objects by attributes, and constructs prisms using nets and skeletons.",
+                "3plus": "{Name} confidently describes 3D objects using precise language, provides real-world examples, and compares objects to identify attributes, orientations, and dimensions."
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "endingOptions": [
+    "They have strong foundational skills and could excel with increased focus.",
+    "They consistently engage with lessons and contribute to class discussions.",
+    "They benefit from checking their work and taking time with multi-step tasks.",
+    "They are a curious learner who approaches mathematics with confidence.",
+    "They show growth in mathematical thinking and problem-solving strategies.",
+    "They work well independently and ask thoughtful questions when needed."
+  ],
+  "currentClass": "grade6Math"
+}
